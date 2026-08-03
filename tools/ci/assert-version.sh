@@ -51,17 +51,15 @@ fail() {
     failures=$(( failures + 1 ))
 }
 
-# A symlinked CHANGELOG.md is the INTERNAL engineering log (the private client
-# repo symlinks it in and gitignores it). It carries no version headings and is
-# never published, so the changelog half of the gate does not apply there.
-changelog_is_internal=0
-if [[ -L ${changelog} ]]; then
-    changelog_is_internal=1
-fi
-
-if [[ ${changelog_is_internal} -eq 0 && ! -f ${changelog} ]]; then
-    echo "assert-version: missing ${changelog}" >&2
-    exit 1
+# The private build repo symlinks CHANGELOG.md to the internal engineering log
+# and gitignores it, so in that repo the file is either a symlink (locally) or
+# absent entirely (on a CI checkout). Neither carries version headings and
+# neither is ever published, so the changelog half of the gate is not
+# applicable there -- but it IS mandatory wherever the changelog is the source
+# of truth, which is the check below.
+changelog_usable=0
+if [[ -f ${changelog} && ! -L ${changelog} ]]; then
+    changelog_usable=1
 fi
 
 read_property() {
@@ -80,8 +78,8 @@ if [[ -f ${props} ]]; then
         exit 1
     fi
     version=${values}
-elif [[ ${changelog_is_internal} -eq 1 ]]; then
-    echo "assert-version: no Directory.Build.props and CHANGELOG.md is the internal log — nothing to assert against" >&2
+elif [[ ${changelog_usable} -eq 0 ]]; then
+    echo "assert-version: no Directory.Build.props, and CHANGELOG.md is absent or is the internal log — nothing to assert against" >&2
     exit 1
 else
     source_of_truth="CHANGELOG.md (Directory.Build.props not present yet)"
@@ -132,8 +130,8 @@ if [[ -n ${tag} ]]; then
         fail "tag '${tag}' does not match version ${version} (expected v${version})"
     fi
 
-    if [[ ${changelog_is_internal} -eq 1 ]]; then
-        echo "assert-version: CHANGELOG.md is the internal log — skipping the changelog heading check (the public one lives in LodestoneServer)" >&2
+    if [[ ${changelog_usable} -eq 0 ]]; then
+        echo "assert-version: no publishable CHANGELOG.md here — skipping the heading check (the public one lives in LodestoneServer)" >&2
     elif ! grep -qE "^## \[${version//./\\.}\] - " "${changelog}"; then
         fail "CHANGELOG.md has no '## [${version}] - <date>' heading"
     fi
