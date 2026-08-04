@@ -11,27 +11,42 @@ section here cannot be released.
 
 ## [Unreleased]
 
+First working version. Nothing has been released yet, so everything below is new.
+
 ### Server
 
 #### Added
 
-- Headless Delverium host: the server generates a world, saves it, and reloads
-  the same world on the next start.
-- Direct connections on a configurable UDP port, so players join by address
-  rather than by friend invite.
-- Steam server query on the port above the gameplay port, reporting server
-  name, map, game, player count, and version.
-- Runs without a graphics card, a desktop session, or a logged-in Steam
-  account.
+- A Delverium server that runs on its own: it generates a world, keeps it
+  saved, and reloads the same world on the next start. No player has to be
+  online for the world to exist.
+- Runs without a graphics card, a monitor, a desktop session, or a signed-in
+  Steam account, so it is happy on a spare machine or a rented one.
+- Players connect by address on a configurable port, up to Delverium's usual
+  eight.
+- Server status on the port above the gameplay port, so the app can show
+  whether a saved server is up and how many people are on it.
+- In-game chat, including server-wide messages — useful for warning a group
+  about a scheduled restart without needing them in Discord.
+- A live world map served to any browser, drawn with the game's own art, with
+  the surface and the cavern systems below it, refreshed as the world changes.
+- Admin control: player roster, live console, kick and ban, save on demand,
+  restart and shutdown — all reachable without logging into the machine.
 
 ### Client
 
 #### Added
 
-- Lodestone desktop app for Windows: save servers by address, pick a
-  character, and connect.
-- Servers appear in Delverium's own Online list, so joining works the same way
-  as joining any other game.
-- Live status for each saved server, read from the server query port.
+- Lodestone app for Windows: save servers by address, pick a character, and
+  connect. Servers and characters are remembered between sessions.
+- Live status for each saved server, so you can see what is up before you
+  launch anything.
+- Signed automatic updates, so the app keeps itself current.
+
+#### Notes
+
+- Delverium has no server browser of its own, so every player needs the
+  Lodestone app to reach a Lodestone server. It is a one-time install per
+  person, and normal Delverium co-op is unaffected.
 
 [Unreleased]: https://github.com/HumanGenome/LodestoneServer/commits/main
