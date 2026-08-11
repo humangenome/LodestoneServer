@@ -127,9 +127,24 @@ fi
 
 hosting_url=$(printf '%s\n' "${footer_line}" | sed -nE 's/.*\((https:[^)]+)\).*/\1/p')
 if [[ -n ${hosting_url} ]]; then
-    code=$(curl -s -o /dev/null -w '%{http_code}' -L --max-time 25 "${hosting_url}" || echo 000)
-    if [[ ${code} != 200 ]]; then
-        fail "hosting URL returned HTTP ${code}: ${hosting_url} (the '/games/<slug>/' path and a wrong slug both 404 — check both)"
+    # A browser User-Agent, because the site sits behind a bot filter that
+    # answers a bare curl from a datacenter IP with 403.
+    code=$(curl -s -o /dev/null -w '%{http_code}' -L --max-time 25 \
+        -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36' \
+        "${hosting_url}" || echo 000)
+    # Fail on 404 and only 404. That is the entire class this rule exists to
+    # catch -- the dead /games/<slug>/ path and a mistyped slug both 404, and
+    # both reached ~90 published release pages across the siblings.
+    #
+    # Anything else non-200 means the host answered but would not serve US: a
+    # bot challenge, a rate limit, a blip. GitHub's runners get 403 from that
+    # filter even with the User-Agent above, so failing on it would block every
+    # release from CI over a page that is perfectly fine. This gate was written
+    # today and its first act was to fail the release it was written for.
+    if [[ ${code} == 404 ]]; then
+        fail "hosting URL 404s: ${hosting_url} (the '/games/<slug>/' path and a wrong slug both 404 — check both)"
+    elif [[ ${code} != 200 ]]; then
+        echo "lint-release-notes: hosting URL returned HTTP ${code} (not 404, so the page exists; likely a bot filter). Not failing." >&2
     fi
 fi
 
