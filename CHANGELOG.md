@@ -11,7 +11,11 @@ section here cannot be released.
 
 ## [Unreleased]
 
-First working version. Nothing has been released yet, so everything below is new.
+## [0.2.3] - 2026-08-10
+
+The first public release. Everything below is new in the sense that matters:
+this is the first version of Lodestone anyone outside its makers can download
+from this page.
 
 ### Server
 
@@ -32,6 +36,8 @@ First working version. Nothing has been released yet, so everything below is new
   the surface and the cavern systems below it, refreshed as the world changes.
 - Admin control: player roster, live console, kick and ban, save on demand,
   restart and shutdown — all reachable without logging into the machine.
+- A public mod list: the server reports what it is running, and a server owner
+  can declare required, recommended, and blocked mods for the app to show.
 
 ### Client
 
@@ -42,11 +48,11 @@ First working version. Nothing has been released yet, so everything below is new
 - Live status for each saved server, so you can see what is up before you
   launch anything.
 - Signed automatic updates, so the app keeps itself current.
-
-#### Notes
-
+- A Mods tab showing what the selected server runs, plus any mods the server
+  owner recommends, requires, or blocks.
 - Delverium has no server browser of its own, so every player needs the
   Lodestone app to reach a Lodestone server. It is a one-time install per
   person, and normal Delverium co-op is unaffected.
 
 [Unreleased]: https://github.com/HumanGenome/LodestoneServer/commits/main
+[0.2.3]: https://github.com/HumanGenome/LodestoneServer/releases/tag/v0.2.3

@@ -44,6 +44,11 @@ jobs:
       # attach the server zip plus checksums.txt, and drop --draft below.
       # Until then the release is created as a draft so nobody can download a
       # release page that has nothing on it.
+      #
+      # Skipped when the release already exists: the release owner may create
+      # the release first (correct author, assets attached) and push the tag
+      # through it, in which case this workflow's job is only to gate the
+      # version, body, and author, not to create a second release.
       - name: Create draft release
         env:
           # HUMANGENOME_PAT makes the release object authored by HumanGenome.
@@ -51,10 +56,14 @@ jobs:
           # author field is immutable once published.
           GH_TOKEN: ${{ secrets.HUMANGENOME_PAT || secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "${{ steps.tag.outputs.tag }}" \
-            --title "${{ steps.tag.outputs.tag }}" \
-            --notes-file release-body.md \
-            --draft
+          if gh release view "${{ steps.tag.outputs.tag }}" --json name >/dev/null 2>&1; then
+            echo "release ${{ steps.tag.outputs.tag }} already exists; leaving it as-is"
+          else
+            gh release create "${{ steps.tag.outputs.tag }}" \
+              --title "${{ steps.tag.outputs.tag }}" \
+              --notes-file release-body.md \
+              --draft
+          fi
 
       - name: Assert release author
         env:
