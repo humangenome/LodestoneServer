@@ -71,7 +71,11 @@ jobs:
         run: |
           AUTHOR=$(gh release view "${{ steps.tag.outputs.tag }}" --json author --jq .author.login)
           echo "release author: ${AUTHOR}"
-          if [ "${AUTHOR}" != "HumanGenome" ]; then
+          # Case-insensitive: the account's login is lowercase 'humangenome'
+          # while the display name is 'HumanGenome', and GitHub logins are not
+          # case-sensitive. The failure this guards against is the release
+          # being authored github-actions[bot], which no casing rescues.
+          if [ "$(echo "${AUTHOR}" | tr '[:upper:]' '[:lower:]')" != "humangenome" ]; then
             echo "::error::release is authored '${AUTHOR}', expected HumanGenome — set the HUMANGENOME_PAT secret"
             exit 1
           fi
