@@ -11,6 +11,26 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-09-20
+
+### Server
+
+#### Fixed
+
+- The server starts its world again on the September 15 Delverium demo update.
+  That update changed how a new character's defaults are built, and the server
+  never got past creating its own character, so every world sat unstarted and
+  the gameplay port stayed closed.
+- The live map draws again on that update. Item and ground-tile descriptions
+  moved, and the map scanner was reading fields that no longer exist.
+
+### Client
+
+#### Fixed
+
+- Creating a character for a new server on the September 15 demo update works
+  again; the connect files the app installs carry the same fix as the server.
+
 ## [0.2.3] - 2026-08-10
 
 The first public release. Everything below is new in the sense that matters:
@@ -55,4 +75,5 @@ from this page.
   person, and normal Delverium co-op is unaffected.
 
 [Unreleased]: https://github.com/HumanGenome/LodestoneServer/commits/main
+[0.2.4]: https://github.com/HumanGenome/LodestoneServer/releases/tag/v0.2.4
 [0.2.3]: https://github.com/HumanGenome/LodestoneServer/releases/tag/v0.2.3
