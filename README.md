@@ -15,7 +15,7 @@
 
 ## What it does
 
-- Runs Delverium with no screen and no desktop session
+- Runs Delverium with no screen and no graphics card
 - Creates and saves the world on the host, and keeps it running with nobody online
 - Takes direct connections on a UDP port
 - Serves a live map of the world on its own web port: the game's own terrain art, every player's position, the teleporters, and a timelapse of how the world changed ([docs/map.md](docs/map.md))
@@ -58,9 +58,9 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
 
 ## Setup
 
-1. Install Delverium on the host through Steam and keep Steam signed in on that machine. The game's executable checks for Steam when it starts, so the server runs in the desktop session where Steam is signed in.
+1. Put a copy of Delverium's game files on the host from your own Steam copy: install the game through Steam on the host, or copy the game folder from a PC that has it.
 2. Download `LodestoneServer-<version>.zip` from the [latest release](https://github.com/HumanGenome/LodestoneServer/releases/latest) and copy the contents of its `LodestoneServer\bepinex\` folder **over** the game folder, so `winhttp.dll`, `doorstop_config.ini`, `BepInEx\` and `dotnet\` sit next to `Delverium.exe`.
-3. Put a file named `steam_appid.txt` next to `Delverium.exe` containing the single line `2710040`.
+3. Put a file named `steam_appid.txt` next to `Delverium.exe` containing the single line `2710040` (`3426800` if the folder holds the free demo).
 4. Start the server once from the game folder so it writes its default config files, then stop it:
 
    ```
@@ -70,6 +70,8 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
 5. Edit `BepInEx\config\com.humangenome.lodestone.host.cfg`: set the gameplay port, the server name, the world name, size and difficulty, and a join password if you want one. Set an admin password in `com.humangenome.lodestone.admin.cfg` to switch on RCON and the admin API.
 6. Start the server again. The world is created on the first start. `lodestone\boot-report.txt` next to the game says `HOSTING` once players can join, or exactly what stopped it if they cannot.
 7. Hand players the address as `ip:port`. They add it in the Lodestone app and press Connect.
+
+**Before you start:** Delverium's executable carries Steam's launch check and exits at once when Steam did not start it. Managed hosting takes care of that. The self-hosted steps for it are not written up yet; if you are setting up your own server, [open an issue](https://github.com/HumanGenome/LodestoneServer/issues) and we will work through it with you and add the steps here.
 
 Running two servers on one machine: give each its own copy of the game folder and its own gameplay port; every other port derives from it, and each folder keeps its own saves, config and status files.
 
