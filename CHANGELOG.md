@@ -50,12 +50,12 @@ from this page.
   eight.
 - Server status on the port above the gameplay port, so the app can show
   whether a saved server is up and how many people are on it.
-- In-game chat, including server-wide messages — useful for warning a group
+- In-game chat, including server-wide messages, useful for warning a group
   about a scheduled restart without needing them in Discord.
 - A live world map served to any browser, drawn with the game's own art, with
   the surface and the cavern systems below it, refreshed as the world changes.
 - Admin control: player roster, live console, kick and ban, save on demand,
-  restart and shutdown — all reachable without logging into the machine.
+  restart and shutdown, all reachable without logging into the machine.
 - A public mod list: the server reports what it is running, and a server owner
   can declare required, recommended, and blocked mods for the app to show.
 
