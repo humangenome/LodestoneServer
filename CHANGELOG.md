@@ -11,6 +11,58 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.2.6] - 2026-09-21
+
+### Server
+
+#### Added
+
+- World backups, kept by the server itself: back up the running world, list
+  the backups, download one, put one back, or bring a player's own world in. A
+  world cannot be swapped under a running game, so a restore or an import
+  backs up the world that is running, stages the incoming one, and restarts
+  the server; the new world is in place on that start. The world it replaced
+  is moved to `lodestone/world-import/replaced/` in the server's files, never
+  deleted. The answer says whether the server restarts by itself or has to be
+  started again.
+- A world file is found by the server's World Name. The name stored inside a
+  save does not have to match it, so a world brought in from a player's own
+  game keeps its inner name and runs under the server's World Name.
+- The owner's console says in one line when a world was brought in, and where
+  the old one went.
+
+#### Fixed
+
+- The owner's console opened with the last error lines of the previous start.
+  It now starts at this start's first line.
+- A world that began on the demo makes the game log a few error lines about
+  areas the demo never had. Beside the demo-world notice they now read as one
+  plain line saying they are expected, instead of red lines with nothing
+  beside them.
+- The boot report's world file line names the file the game really holds, not
+  a file built from the world's inner name.
+
+### Client
+
+#### Added
+
+- A new character is made on Delverium's own Create Character screen. When the
+  character the app picked does not exist yet, the game opens Create Character
+  with the name filled in; the player chooses hair, colours, body, voice and
+  death penalty and presses Confirm, and the join carries on with that
+  character. Closing the screen stops the join with a plain sentence, and no
+  character is made behind the player's back.
+- The app says so: "You will customize this character in Delverium when you
+  first connect." While the screen is open the app reads "Make your character
+  in Delverium", and the character the game made is the one the app remembers
+  for that server, under the name the player confirmed.
+- The World window: "Back up now", and "Choose a world" takes a world's `.wsv`
+  straight from the player's own saves (the picker opens in their World
+  folder). What the server said is shown in the server's own words, and a
+  server too old to keep backups is named as such.
+- Headless checks: `--characters <folder> --report <file>` and `--world-import
+  <host> <port> <password> <world> <report>`.
+
 ## [0.2.5] - 2026-09-21
 
 ### Server
