@@ -2,10 +2,10 @@ blank_issues_enabled: false
 contact_links:
   - name: Lodestone Discussions
     url: https://github.com/HumanGenome/Lodestone/discussions
-    about: Questions, ideas, and general discussion — please start here before opening an issue.
+    about: Questions, ideas and general discussion. Please start here before opening an issue.
   - name: Player-side issues
     url: https://github.com/HumanGenome/Lodestone/issues
-    about: Problems with the Lodestone app on a player's PC — installing, connecting, updates.
+    about: Problems with the Lodestone app on a player's PC, such as installing, connecting or updates.
   - name: Hosting support
     url: https://www.survivalservers.com/support
     about: If you rent a managed Lodestone server, panel/billing/support requests go to your host, not here.

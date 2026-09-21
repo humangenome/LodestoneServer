@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Feature requests for the **Lodestone app** — the server list, connecting, characters, updates — belong on the [Lodestone hub](https://github.com/HumanGenome/Lodestone/issues).
+        Feature requests for the **Lodestone app** (the server list, connecting, characters, updates) belong on the [Lodestone hub](https://github.com/HumanGenome/Lodestone/issues).
 
   - type: textarea
     id: usecase

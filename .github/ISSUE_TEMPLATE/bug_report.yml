@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for filing a bug. Please make sure this is about the Lodestone **server** — not your hosting provider's control panel, billing, or support.
+        Thanks for filing a bug. Please make sure this is about the Lodestone **server**, not your hosting provider's control panel, billing or support.
 
         If the problem is in the **Lodestone app** on a player's PC, file it on the [Lodestone hub](https://github.com/HumanGenome/Lodestone/issues) instead.
 
@@ -13,7 +13,7 @@ body:
     id: lodestone-version
     attributes:
       label: Lodestone version
-      placeholder: "e.g. v0.1.0 — and which package you installed"
+      placeholder: "e.g. v0.2.4, and which package you installed"
     validations:
       required: true
 
@@ -45,7 +45,7 @@ body:
     id: steps
     attributes:
       label: Steps to reproduce
-      description: Be specific — exact commands, the settings you changed, and what the players did.
+      description: Be specific. Exact commands, the settings you changed, and what the players did.
     validations:
       required: true
 

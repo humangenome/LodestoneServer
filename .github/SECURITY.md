@@ -27,15 +27,15 @@ In scope:
 
 - Remote code execution or unauthenticated takeover of the server process
 - A connected player being able to read or write arbitrary files on the host
-- Admission bypass — an unauthorised client joining, or impersonating another player or the host
+- Admission bypass: an unauthorised client joining, or impersonating another player or the host
 - Privilege escalation out of the supervised game process
 - Path traversal through world names, character names, save paths, or configuration values
 - Command injection through any value the server reads from configuration or from the network
 
 Out of scope:
 
-- Vulnerabilities in the machine your server runs on — those belong to whoever operates it
-- Vulnerabilities in retail Delverium itself — report those to the game's developer
+- Vulnerabilities in the machine your server runs on: those belong to whoever operates it
+- Vulnerabilities in retail Delverium itself: report those to the game's developer
 - Vulnerabilities in third-party mods running alongside Lodestone
 - Cheating and anti-cheat concerns; Lodestone does not provide anti-cheat
 - Denial of service by simply sending a server more traffic than its link can carry

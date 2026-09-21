@@ -6,8 +6,8 @@ Short and to the point.
 
 | You are looking at | File it here |
 |---|---|
-| A running server — startup, world saving, ports, server query, configuration | [HumanGenome/LodestoneServer](https://github.com/HumanGenome/LodestoneServer/issues) |
-| The Lodestone app — installing, connecting, the server list, updates | [HumanGenome/Lodestone](https://github.com/HumanGenome/Lodestone/issues) |
+| A running server: startup, world saving, ports, server query, configuration | [HumanGenome/LodestoneServer](https://github.com/HumanGenome/LodestoneServer/issues) |
+| The Lodestone app: installing, connecting, the server list, updates | [HumanGenome/Lodestone](https://github.com/HumanGenome/Lodestone/issues) |
 | Not sure | Either. It gets moved. |
 
 ## Reporting bugs
@@ -21,7 +21,7 @@ Open an issue using the **Bug report** template. Include:
 - The server log, and the game's own log
 - Whether it reproduces on a clean world
 
-If your issue is about managed hosting you bought — the control panel, billing, or support — contact your host directly. Lodestone's GitHub issues are for the open-source server, app, and mods themselves.
+If your issue is about managed hosting you bought (the control panel, billing or support), contact your host directly. Lodestone's GitHub issues are for the open-source server, app, and mods themselves.
 
 ## Feature requests
 
@@ -40,7 +40,7 @@ Do not open a public issue. See [SECURITY.md](.github/SECURITY.md).
 - Change types are `#### Added`, `#### Changed`, `#### Fixed`, `#### Removed`, in that order, and only the ones that apply
 - Plain bullets. No bold lead-ins except a literal `**Breaking:**`, no emoji, no marketing language, no internal references
 
-`tools/ci/lint-release-notes.sh` enforces all of it, and `.github/workflows/checks.yml` runs it on every push — so a bad section fails on the commit that wrote it, not on the tag that would have published it.
+`tools/ci/lint-release-notes.sh` enforces all of it, and `.github/workflows/checks.yml` runs it on every push, so a bad section fails on the commit that wrote it, not on the tag that would have published it.
 
 ## Version numbers
 
