@@ -79,10 +79,18 @@ Running two servers on one machine: give each its own copy of the game folder an
 
 Open `http://<server ip>:<game port + 5>/` in a browser. The server serves the page itself; nothing else is installed.
 
+<p align="center">
+  <img src="docs/img/map-page.png" alt="The live map page: the whole world, a player's live position, the area selector and the map controls" width="860">
+</p>
+
 - **The map**: the world drawn from the game's own terrain art, one level at a time, redrawn as players mine, build and explore, sharp when zoomed in.
 - **Players**: every connected player marked where they stand, refreshed every few seconds.
 - **Points of interest**: the teleporters, live from the game.
 - **Timelapse**: the frames the world went through, kept by the server.
+
+<p align="center">
+  <img src="docs/img/map-close.png" alt="The live map zoomed in: the game's own ground art, a player, creatures and a teleporter marked" width="860">
+</p>
 
 The page and its JSON are open to anyone with the address; set `AccessKey` under `[Map]` to require a key. Details and the API in [docs/map.md](docs/map.md).
 

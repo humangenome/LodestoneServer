@@ -2,6 +2,10 @@
 
 Every Lodestone server draws its world on its own web port, game port + 5 (`27021` for a server on the default `27016`). The page runs inside the game process and needs nothing else installed. Open `http://<server ip>:<game port + 5>/` in a browser.
 
+<p align="center">
+  <img src="img/map-page.png" alt="The live map page: the whole world with a player's live position" width="860">
+</p>
+
 ## What is on it
 
 - **The world**, one level at a time, drawn from the game's own terrain art: grass, sand, water, stone, farmed soil, the lot. The picture is rebuilt only when tiles actually change, so a busy mining session shows up within seconds and an idle world costs nothing.
