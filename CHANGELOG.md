@@ -11,6 +11,82 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.2.5] - 2026-09-21
+
+### Server
+
+#### Added
+
+- Delverium Early Access. The server runs the full game (Steam app 2710040) as
+  well as the free demo, and one build of the server files serves both.
+- A clean stop. `shutdown` saves the world, closes its listeners, writes
+  `lodestone/last-shutdown.json` saying whether the world was saved, and
+  leaves within seconds. The process can no longer be left half closed and
+  holding its ports.
+- A world check before the game's loader runs. A world saved by a newer
+  version of the game than the server runs, or one too old for it, is held
+  with a plain sentence for the owner, and the file is left untouched.
+- A world made on the demo loads on the full game, and the owner is told once
+  per start: "This world was made on the Delverium demo. It keeps the demo's 4
+  areas and the full game does not add the rest. Pick a new world name in the
+  server's settings for a full-game world; this world stays in the server's
+  files." `[World] DemoWall = true` holds such a world instead of loading it.
+- The game build and its label are in `health`, `info`, the roster, the
+  `build` command and the Steam query tags, so the app can tell a mismatch
+  before it connects.
+- The game turns away a player whose game is on another build without telling
+  anyone why. The server now says so in the owner's console, and says when the
+  cause may be a wrong join password instead.
+- An allow list (`allow`, `deny`, `allowlist`). When it is on, only listed
+  players get in, and anyone already in who is not listed is shown out.
+- Live ports. When the console or admin port is held by another process, the
+  server moves to a spare port in its own block and publishes the real ports
+  in `health`, `info`, the roster and the query tags.
+- Console commands: `time`, `time set`, `tp`, `spawn`, `mem`, `ports`, `build`
+  and `ping`.
+- The boot report says where the world file is, and whether that is inside the
+  server's own folder.
+- The live map is drawn by the game's own rules: edge pieces, every part of a
+  composite tile, the floor plane, and the full game's art on all nine levels.
+  The server keeps a fog of war, and the viewer has a zoom ladder, player
+  chips, a scale bar and an embed mode.
+
+#### Fixed
+
+- Players can join a full-game world. The game sends a world in 256 KB pieces,
+  and the server's connections were opened with Steam's small default buffer,
+  so a full-game world never arrived and the player sat at the loading screen.
+- A server's saves stay in the server's own folder on the full game, which
+  otherwise writes them to the Windows profile.
+- The chat commands `/tp`, `/spawn` and `/back` no longer crash the server
+  about a minute later when a player is connected.
+- Two signed reads of the admin API inside the same second no longer refuse
+  the second one, and every refusal says why.
+- The owner's console reads in plain words. Debug lines, the mod loader's own
+  narration and the game's boot noise stay out of it.
+
+### Client
+
+#### Added
+
+- The app checks the game build before it connects and says in words when the
+  server runs another version, or the full game against the demo.
+- The app finds the full game's install. With the demo and the full game both
+  installed it picks the full game, and a demo folder is no longer read as the
+  full game.
+- The app looks for a player's characters where the full game keeps them.
+- The Console tab opens connected and follows a server whose console and admin
+  ports moved.
+- Headless checks for server owners: `--probe <host:port>` and `--rcon-probe`.
+
+#### Fixed
+
+- The connect files open their connection with the game's own buffer size, the
+  same fix as the server.
+- Long console answers are read whole instead of being cut at one packet.
+- The saved admin password is masked, and the New character button no longer
+  shows two plus signs.
+
 ## [0.2.4] - 2026-09-20
 
 ### Server
