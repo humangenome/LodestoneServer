@@ -9,7 +9,7 @@ Every Lodestone server draws its world on its own web port, game port + 5 (`2702
 ## What is on it
 
 - **The world**, one level at a time, drawn from the game's own terrain art: grass, sand, water, stone, farmed soil, the lot. The picture is rebuilt only when tiles actually change, so a busy mining session shows up within seconds and an idle world costs nothing.
-- **Close in, the game's own art.** Zoomed out, the map is one colour per tile; zoomed in, the browser draws the same textures the game draws, so a shoreline or a cave mouth looks like it does in play.
+- **Close in, the game's own ground art.** Zoomed out, the map is one colour per tile; zoomed in, the browser draws the game's own ground textures.
 - **Players**: every connected player marked where they stand, with their name, refreshed every few seconds. A player whose position has gone stale is shown as stale rather than drawn somewhere wrong.
 - **Points of interest**: the teleporters, live from the game.
 - **Timelapse**: the server keeps the frames the world went through, and the page plays them back per level.

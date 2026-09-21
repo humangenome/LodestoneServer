@@ -40,7 +40,7 @@
 | OS | Windows 10, Windows 11, or Windows Server |
 | Game files | A Delverium installation on the host, from your own Steam copy |
 | Ports | Two UDP ports, the gameplay port and the one above it for server query; three TCP ports above those for RCON, the admin API and the live map page, opened only for the people who should reach them |
-| Hardware | No GPU required; a few hundred MB of disk beyond the game and a modest amount of RAM per server |
+| Hardware | No GPU required. A few hundred MB of disk beyond the game. A small world with one player on it used under 1 GB of RAM in our tests |
 
 ## Ports
 
@@ -58,6 +58,8 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
 
 ## Setup
 
+**Before you start:** Delverium's executable carries Steam's launch check and exits at once when Steam did not start it. Managed hosting takes care of that. The self-hosted steps for it are not written up yet; if you are setting up your own server, [open an issue](https://github.com/HumanGenome/LodestoneServer/issues) and we will work through it with you and add the steps here.
+
 1. Put a copy of Delverium's game files on the host from your own Steam copy: install the game through Steam on the host, or copy the game folder from a PC that has it.
 2. Download `LodestoneServer-<version>.zip` from the [latest release](https://github.com/HumanGenome/LodestoneServer/releases/latest) and copy the contents of its `LodestoneServer\bepinex\` folder **over** the game folder, so `winhttp.dll`, `doorstop_config.ini`, `BepInEx\` and `dotnet\` sit next to `Delverium.exe`.
 3. Put a file named `steam_appid.txt` next to `Delverium.exe` containing the single line `2710040` (`3426800` if the folder holds the free demo).
@@ -71,8 +73,6 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
 6. Start the server again. The world is created on the first start. `lodestone\boot-report.txt` next to the game says `HOSTING` once players can join, or exactly what stopped it if they cannot.
 7. Hand players the address as `ip:port`. They add it in the Lodestone app and press Connect.
 
-**Before you start:** Delverium's executable carries Steam's launch check and exits at once when Steam did not start it. Managed hosting takes care of that. The self-hosted steps for it are not written up yet; if you are setting up your own server, [open an issue](https://github.com/HumanGenome/LodestoneServer/issues) and we will work through it with you and add the steps here.
-
 Running two servers on one machine: give each its own copy of the game folder and its own gameplay port; every other port derives from it, and each folder keeps its own saves, config and status files.
 
 ## The live map page
@@ -83,14 +83,10 @@ Open `http://<server ip>:<game port + 5>/` in a browser. The server serves the p
   <img src="docs/img/map-page.png" alt="The live map page: the whole world, a player's live position, the area selector and the map controls" width="860">
 </p>
 
-- **The map**: the world drawn from the game's own terrain art, one level at a time, redrawn as players mine, build and explore, sharp when zoomed in.
+- **The map**: the world drawn from the game's own terrain art, one level at a time, redrawn as players mine, build and explore.
 - **Players**: every connected player marked where they stand, refreshed every few seconds.
 - **Points of interest**: the teleporters, live from the game.
 - **Timelapse**: the frames the world went through, kept by the server.
-
-<p align="center">
-  <img src="docs/img/map-close.png" alt="The live map zoomed in: the game's own ground art, a player, creatures and a teleporter marked" width="860">
-</p>
 
 The page and its JSON are open to anyone with the address; set `AccessKey` under `[Map]` to require a key. Details and the API in [docs/map.md](docs/map.md).
 
