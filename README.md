@@ -22,7 +22,8 @@
 - Adds an in-game chat with player and admin commands, since the game has none ([docs/chat.md](docs/chat.md))
 - Source RCON and a signed HTTP API for admin tools, once an admin password is set ([docs/admin-api.md](docs/admin-api.md))
 - Writes a live roster file and a boot report a panel or a script can read without a login ([docs/status-and-roster.md](docs/status-and-roster.md))
-- Bans that survive restarts
+- Bans and an allow list that survive restarts
+- Keeps backups of its world, and takes in a world from a player's own game ([docs/admin-api.md](docs/admin-api.md#world-backups))
 - Answers Source server query on the port above the gameplay port, with the real player count
 - Optional join password
 - Up to 8 players, the game's own limit, and the server takes no seat
@@ -40,7 +41,7 @@
 | OS | Windows 10, Windows 11, or Windows Server |
 | Game files | A Delverium installation on the host, from your own Steam copy |
 | Ports | Two UDP ports, the gameplay port and the one above it for server query; three TCP ports above those for RCON, the admin API and the live map page, opened only for the people who should reach them |
-| Hardware | No GPU required. A few hundred MB of disk beyond the game. A small world with one player on it used under 1 GB of RAM in our tests |
+| Hardware | No GPU required. A few hundred MB of disk beyond the game. Plan for 3 GB of RAM per server: in our tests a medium world settled at about 1.2 GB, and the start that creates a world or follows a game update reached about 3 GB |
 
 ## Ports
 
