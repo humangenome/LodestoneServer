@@ -59,7 +59,7 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
 
 ## Setup
 
-**Before you start:** Delverium's executable carries Steam's launch check and exits at once when Steam did not start it. Managed hosting takes care of that. The self-hosted steps for it are not written up yet; if you are setting up your own server, [open an issue](https://github.com/HumanGenome/LodestoneServer/issues) and we will work through it with you and add the steps here.
+**Before you start:** Delverium's executable carries Steam's launch check and exits at once when Steam did not start it. A rented Survival Servers server takes care of that. The self-hosted steps for it are not written up yet; if you are setting up your own server, [open an issue](https://github.com/HumanGenome/LodestoneServer/issues) and we will work through it with you and add the steps here.
 
 1. Put a copy of Delverium's game files on the host from your own Steam copy: install the game through Steam on the host, or copy the game folder from a PC that has it.
 2. Download `LodestoneServer-<version>.zip` from the [latest release](https://github.com/HumanGenome/LodestoneServer/releases/latest) and copy the contents of its `LodestoneServer\bepinex\` folder **over** the game folder, so `winhttp.dll`, `doorstop_config.ini`, `BepInEx\` and `dotnet\` sit next to `Delverium.exe`.
@@ -95,7 +95,7 @@ The page and its JSON are open to anyone with the address; set `AccessKey` under
 
 `lodestone\roster.json` is rewritten every 5 seconds with the server, world and player state. `lodestone\boot-report.txt` is the plain-text verdict of the last start. The HTTP API on port + 4 answers `/api/v1/health` without a signature, and everything that changes the server needs the admin password. Formats and the command list in [docs/status-and-roster.md](docs/status-and-roster.md) and [docs/admin-api.md](docs/admin-api.md).
 
-## Managed hosting
+## Rent a server
 
 If you would rather not run the machine, [SurvivalServers.com](https://www.survivalservers.com/services/game_servers/delverium/?utm_source=github&utm_medium=readme_install&utm_campaign=lodestone) runs Delverium servers with Lodestone installed and kept current, the ports open, and a control panel with the live map, the console, backups and one-click restores.
 
