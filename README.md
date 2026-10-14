@@ -59,7 +59,7 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
 
 ## Setup
 
-**Before you start:** Delverium's executable carries Steam's launch check and exits at once when Steam did not start it. A rented Survival Servers server takes care of that. The self-hosted steps for it are not written up yet; if you are setting up your own server, [open an issue](https://github.com/HumanGenome/LodestoneServer/issues) and we will work through it with you and add the steps here.
+**Before you start:** Delverium's executable carries Steam's launch check and exits at once when Steam did not start it. A rented Survival Servers server takes care of that. Self-hosted steps for it are not written up yet.
 
 1. Put a copy of Delverium's game files on the host from your own Steam copy: install the game through Steam on the host, or copy the game folder from a PC that has it.
 2. Download `LodestoneServer-<version>.zip` from the [latest release](https://github.com/HumanGenome/LodestoneServer/releases/latest) and copy the contents of its `LodestoneServer\bepinex\` folder **over** the game folder, so `winhttp.dll`, `doorstop_config.ini`, `BepInEx\` and `dotnet\` sit next to `Delverium.exe`.
