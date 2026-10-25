@@ -11,6 +11,58 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.2.7] - 2026-10-25
+
+### Server
+
+#### Changed
+
+- The admin API checks a request's signature before it reads any body. A body
+  up to 64 KB is read and then verified as before; a bigger one (a world
+  upload) must declare its SHA-256 in `X-Lodestone-Content-SHA256`, which the
+  signature covers, or it is refused unread. Chunked bodies are refused.
+- The recent chat lines (`/api/v1/chat/recent`) need a signed request.
+- At most 32 admin API connections, 8 from one address, and 3 RCON
+  connections from one address. Five wrong signatures or RCON passwords from
+  one address in ten minutes turn it away for a minute, doubling up to 15
+  minutes. A missing signature or a clock problem does not count.
+- The live map compares its access key in constant time.
+- Built against Delverium v0.1.0.3 (Steam build 25694018). The live map draws
+  the seven crystal torches and the iron golem from that update with their own
+  art.
+
+#### Fixed
+
+- The Steam query answer names the server's world in its map field. It said
+  "Lodestone" on every server.
+- The query answer says when the server has a join password, so the Lodestone
+  app asks for it before it starts the game instead of the player being
+  turned away at join.
+
+### Client
+
+#### Changed
+
+- World uploads declare their SHA-256, which servers on 0.2.7 require for
+  bodies over 64 KB. An app on 0.2.6 cannot upload a world to a 0.2.7 server
+  (it shows a connection error; the server's log says to update the app), and
+  can still do everything else on it.
+
+#### Fixed
+
+- The World window shows its backup list and buttons (Back up now, Download,
+  Restore, Choose a world). In 0.2.6 they were built but never placed in the
+  window.
+- The Mods tab's blocked mark and the other icons draw on Windows 10 and
+  Windows Server.
+- The server list shows one status dot per server, no strip under the
+  selected server, and a gap between the players bar and the player count. An
+  offline server reads "Delverium" instead of "Delverium |".
+- Close Delverium is never cut off at the edge of the window; the character
+  name gives way first.
+- In the tray the app pauses drawing and its server checks, and checks for the
+  game every 15 seconds. Minimized, it keeps drawing.
+
 ## [0.2.6] - 2026-09-21
 
 ### Server

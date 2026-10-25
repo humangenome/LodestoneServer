@@ -76,7 +76,6 @@ Base URL `http://<server ip>:<game port + 4>`. Every response carries an `X-Lode
 |---|---|---|
 | GET | `/api/v1/health` | `200` when the world is running and the snapshot is fresh, `503` otherwise; the body says why in `verdict` and `verdict_detail`, and names the game build the server runs |
 | GET | `/api/v1/players` | Names, session length, ping. No positions. Can be made signed with `PublicPlayerList = false` |
-| GET | `/api/v1/chat/recent?since=<ms>&limit=<n>` | The broadcast log |
 | GET | `/api/v1/manifest` | What the server runs and what it asks of a player; the app's Mods tab reads it |
 
 ```json
@@ -104,6 +103,7 @@ Base URL `http://<server ip>:<game port + 4>`. Every response carries an `X-Lode
 | GET | `/api/v1/status` | | The full roster document |
 | GET | `/api/v1/roster` | | Same document, see [status-and-roster.md](status-and-roster.md) |
 | GET | `/api/v1/bans` | | |
+| GET | `/api/v1/chat/recent?since=<ms>&limit=<n>` | | The chat log: what players typed and the server's broadcasts (signed since 0.2.7) |
 | POST | `/api/v1/bans` | `{"id":"...","name":"...","reason":"..."}` | Bans, and kicks if connected |
 | POST | `/api/v1/bans/remove` | `{"id":"..."}` | |
 | GET | `/api/v1/allowlist` | | |
@@ -132,12 +132,15 @@ signature = lowercase hex of HMACSHA256(key, canonical)
 
 X-Lodestone-Timestamp: <unix seconds>
 X-Lodestone-Signature: <signature>
+X-Lodestone-Content-SHA256: <sha256hex(body)>        (required for a body over 64 KB)
 ```
 
 - `<path>` is the path without the query string.
 - `<sha256hex(body)>` is the hash of the empty string for a GET.
+- The server reads no body until the signature headers are there and the timestamp is current. A body up to 64 KB is then read and checked. A bigger one (a world zip) must name its hash in `X-Lodestone-Content-SHA256`: the signature is checked against that hash before the first byte is read, and the body must match it. Without the header such a request is refused unread. Chunked bodies are not accepted.
 - A timestamp more than 300 seconds from the server's clock is rejected.
 - A signature is single-use inside that window.
+- Five wrong signatures from one address in ten minutes turn that address away for a minute, then longer on repeats (up to 15 minutes). The count is shared with RCON's wrong passwords. A missing signature or a clock problem does not count.
 - Every failure is `401 {"error":"unauthorized: <reason>"}`. The reason is a short sentence (no signature, clock skew, a password that differs from the caller's, a replayed signature) so an admin tool can tell its user what to fix; it never carries the password or the expected signature.
 
 ### The console stream
@@ -162,4 +165,4 @@ Backups the owner asks for or uploads are kept until deleted by hand. The automa
 
 ## Server query
 
-The server answers Source A2S on game port + 1 with the server name, map, player count and the player names. `AdvertisePlayersToSteam` (on by default) is what makes the count real: the game's own networking never reports occupants to the query responder, so without it every server reads `0/8` no matter who is in the world.
+The server answers Source A2S on game port + 1 with the server name, the world name in the map field, the player count and the player names, and marks itself password-protected when a join password is set (both since 0.2.7), so a launcher can ask for the password before it starts the game. `AdvertisePlayersToSteam` (on by default) is what makes the count real: the game's own networking never reports occupants to the query responder, so without it every server reads `0/8` no matter who is in the world.
