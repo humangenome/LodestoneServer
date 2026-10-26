@@ -24,8 +24,8 @@ Rebuilt once a second and written every 5 seconds (`Roster.IntervalMs` in the ad
 {
   "version": 1,
   "instance": "Deep Hollow",
-  "generated_by": "LodestoneAdmin 0.2.4",
-  "unix_ms": 1785797188997,
+  "generated_by": "LodestoneAdmin 0.2.7",
+  "unix_ms": 1792966232857,
   "stale": false,
   "server": {
     "name": "Deep Hollow",
@@ -33,7 +33,16 @@ Rebuilt once a second and written every 5 seconds (`Roster.IntervalMs` in the ad
     "query_port": 27017,
     "rcon_port": 27019,
     "http_port": 27020,
-    "max_players": 8
+    "ports": { "game": 27016, "query": 27017, "rcon": 27019, "http": 27020 },
+    "game_build": "26197027",
+    "game_version": "0.1",
+    "game_label": "3.35",
+    "steam_build": "26197027",
+    "steam_app": "2710040",
+    "lodestone_version": "0.2.7",
+    "max_players": 8,
+    "steam_id": "90000000000000001",
+    "steam_logged_on": true
   },
   "world": {
     "name": "Deep Hollow",
@@ -47,14 +56,19 @@ Rebuilt once a second and written every 5 seconds (`Roster.IntervalMs` in the ad
     {
       "id": "90000000000000241",
       "name": "Rowan",
+      "client_index": 1,
+      "local_player_index": 0,
       "state": "RUNNING",
       "spawned": true,
       "level_id": 0,
       "x": 64.5,
       "y": 99.5,
+      "z": 0,
       "ping_ms": 31,
-      "connected_unix_ms": 1785797139760,
-      "session_seconds": 8049
+      "connected_unix_ms": 1792966175000,
+      "session_seconds": 8049,
+      "health": 40,
+      "max_health": 40
     }
   ]
 }
@@ -63,9 +77,9 @@ Rebuilt once a second and written every 5 seconds (`Roster.IntervalMs` in the ad
 | Field | Meaning |
 |---|---|
 | `stale` | `true` when the snapshot is older than it should be; the rest of the document is the last good one |
-| `server.*` | The advertised name and where each listener is |
+| `server.*` | The advertised name, where each listener is (`ports` holds the ports it really listens on), the game build and label, the Lodestone version, and whether the server is logged on to Steam |
 | `world.*` | The world being hosted, its settings, and whether it is running |
-| `players[]` | Everyone connected: character name, whether they have spawned, which level they are on and where, ping, and how long they have been on |
+| `players[]` | Everyone connected: character name, whether they have spawned, which level they are on and where, ping, how long they have been on, and their health |
 
 `x` and `y` are world units, which are tile units, so a map can place a player without conversion. `level_id` is the game's own level index; `0` is the surface.
 

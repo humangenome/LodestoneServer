@@ -81,11 +81,11 @@ Base URL `http://<server ip>:<game port + 4>`. Every response carries an `X-Lode
 ```json
 // GET /api/v1/health -> 200
 {"ok":true,"instance":"Deep Hollow","server_name":"Deep Hollow",
- "lodestone_version":"0.2.6","gameplay_port":27016,"query_port":27017,
+ "lodestone_version":"0.2.7","gameplay_port":27016,"query_port":27017,
  "rcon_port":27019,"http_port":27020,
  "ports":{"game":27016,"query":27017,"rcon":27019,"http":27020},
- "game_build":"25694018","game_version":"0.1","game_label":"3.35",
- "steam_build":"25694018","steam_app":"2710040",
+ "game_build":"26197027","game_version":"0.1","game_label":"3.35",
+ "steam_build":"26197027","steam_app":"2710040",
  "max_players":8,"player_count":3,"world_running":true,
  "verdict":"HOSTING","verdict_detail":"","online_state":"GAME_CREATED",
  "snapshot_age_ms":350,"uptime_seconds":4210}
