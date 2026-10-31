@@ -55,6 +55,8 @@ Everything derives from one number, so you only ever choose the gameplay port.
 | base + 4 (default `27020`) | TCP | The admin API the Lodestone app's Console tab uses, once an admin password is set |
 | base + 5 (default `27021`) | TCP | The live map page ([docs/map.md](docs/map.md)) |
 
+If the RCON or admin port is already taken when the server starts, RCON moves to base + 6, then base + 8, and the admin API to base + 7, then base + 9. `/api/v1/health` lists the ports it got, and the query tags name any that moved.
+
 The two UDP ports must be open on the host firewall and forwarded if the server sits behind NAT. Open the TCP ports only for the people who should reach them. RCON and the admin API stay off until `Password` is set under `[Admin]`; the map page is open to anyone with the address unless `AccessKey` is set under `[Map]`.
 
 ## Setup
