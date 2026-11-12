@@ -11,6 +11,16 @@ section here cannot be released.
 
 ## [Unreleased]
 
+## [0.2.8] - 2026-11-12
+
+### Server
+
+#### Fixed
+
+- World uploads and restores now check every file name and refuse the whole
+  upload if any file would land outside the server's own folder, so a bad zip
+  changes nothing.
+
 ## [0.2.7] - 2026-10-25
 
 ### Server
