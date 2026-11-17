@@ -1,13 +1,14 @@
 # Changelog
 
-All notable changes to Lodestone are recorded here. The format follows
+All notable changes to LodestoneServer are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and Lodestone uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-Each version is split into **Server** (LodestoneServer and the host mod) and
-**Client** (the Lodestone app and the client mod). A release publishes the
-section for its own version verbatim as the release body, so a version with no
-section here cannot be released.
+Each version has a **Server** part (LodestoneServer and the host mod). Up to 0.2.7
+it also has a **Client** part. The Lodestone app's newer release notes are on the
+[Lodestone release pages](https://github.com/HumanGenome/Lodestone/releases). A release
+publishes the section for its own version word for word as the release body, so a
+version with no section here can't be released.
 
 ## [Unreleased]
 
@@ -17,9 +18,9 @@ section here cannot be released.
 
 #### Fixed
 
-- World uploads and restores now check every file name and refuse the whole
-  upload if any file would land outside the server's own folder, so a bad zip
-  changes nothing.
+- World uploads and restores now check every file name first. If any file
+  would end up outside the server's own folder, the whole upload is turned down
+  and nothing changes.
 
 ## [0.2.7] - 2026-10-25
 
