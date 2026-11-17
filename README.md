@@ -11,28 +11,25 @@
 
 # LodestoneServer
 
-[Delverium](https://store.steampowered.com/app/2710040/) has no dedicated server. LodestoneServer runs the game as one on a Windows machine, and players join it by IP and port through the [Lodestone app](https://github.com/HumanGenome/Lodestone). This repo is for hosts; players only need the app.
+[Delverium](https://store.steampowered.com/app/2710040/) has no dedicated server. LodestoneServer runs the game as one on a Windows machine, and players join it by IP with the [Lodestone app](https://github.com/HumanGenome/Lodestone). This repo is for hosts. Players only need the app.
 
 ## What it does
 
 - Runs Delverium with no screen and no graphics card
-- Creates and saves the world on the host, and keeps it running with nobody online
-- Takes direct connections on a UDP port
-- Serves a live map of the world on its own web port: the game's own terrain art, every player's position, the teleporters, and a timelapse of how the world changed ([docs/map.md](docs/map.md))
+- Join by IP: players connect straight to its IP and port
+- Live map in a browser: the world in the game's own art, every player's position, the teleporters, and History to play back how the world changed ([docs/map.md](docs/map.md))
 - Adds an in-game chat with player and admin commands, since the game has none ([docs/chat.md](docs/chat.md))
 - Source RCON and a signed HTTP API for admin tools, once an admin password is set ([docs/admin-api.md](docs/admin-api.md))
 - Writes a live roster file and a boot report a panel or a script can read without a login ([docs/status-and-roster.md](docs/status-and-roster.md))
-- Bans and an allow list that survive restarts
-- Keeps backups of its world, and takes in a world from a player's own game ([docs/admin-api.md](docs/admin-api.md#world-backups))
-- Answers Source server query on the port above the gameplay port, with the real player count
-- Optional join password
-- Up to 8 players, the game's own limit, and the server takes no seat
+- Bans and a whitelist that survive restarts
+- World backups, and upload a save from a player's own game ([docs/admin-api.md](docs/admin-api.md#world-backups))
+- Shows up in server lists with the real player count
+- Password protection
+- Up to 8 players, the game's own limit. The server doesn't use one of them.
 
-## What it does not do
+## Known limitations
 
-- **It does not ship Delverium.** You install the game files yourself; the server runs them from a folder you choose.
-- **It does not replace the player's game.** Everyone joining still runs retail Delverium, with the Lodestone app on top.
-- **It is not an anti-cheat.** Lodestone does not police what connected clients do.
+- **It isn't an anti-cheat.** Lodestone doesn't check what players do in the game.
 
 ## Requirements
 
@@ -40,7 +37,7 @@
 |---|---|
 | OS | Windows 10, Windows 11, or Windows Server |
 | Game files | A Delverium installation on the host, from your own Steam copy |
-| Ports | Two UDP ports, the gameplay port and the one above it for server query; three TCP ports above those for RCON, the admin API and the live map page, opened only for the people who should reach them |
+| Ports | Two UDP ports, the gameplay port and the one above it for server lists. Three TCP ports above those for RCON, the admin API and the live map page, open only to the people who should reach them |
 | Hardware | No GPU required. A few hundred MB of disk beyond the game. Plan for 3 GB of RAM per server: in our tests a medium world settled at about 1.2 GB, and the start that creates a world or follows a game update reached about 3 GB |
 
 ## Ports
@@ -61,7 +58,7 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
 
 ## Setup
 
-**Before you start:** Delverium's executable carries Steam's launch check and exits at once when Steam did not start it. A rented Survival Servers server takes care of that. Self-hosted steps for it are not written up yet.
+**Before you start:** Delverium has Steam's launch check, so it closes at once when Steam didn't start it. The steps to run it on your own machine aren't written up yet.
 
 1. Put a copy of Delverium's game files on the host from your own Steam copy: install the game through Steam on the host, or copy the game folder from a PC that has it.
 2. Download `LodestoneServer-<version>.zip` from the [latest release](https://github.com/HumanGenome/LodestoneServer/releases/latest) and copy the contents of its `LodestoneServer\bepinex\` folder **over** the game folder, so `winhttp.dll`, `doorstop_config.ini`, `BepInEx\` and `dotnet\` sit next to `Delverium.exe`.
@@ -73,14 +70,14 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
    ```
 
 5. Edit `BepInEx\config\com.humangenome.lodestone.host.cfg`: set the gameplay port, the server name, the world name, size and difficulty, and a join password if you want one. Set an admin password in `com.humangenome.lodestone.admin.cfg` to switch on RCON and the admin API.
-6. Start the server again. The world is created on the first start. `lodestone\boot-report.txt` next to the game says `HOSTING` once players can join, or exactly what stopped it if they cannot.
-7. Hand players the address as `ip:port`. They add it in the Lodestone app and press Connect.
+6. Start the server again. The world is created on the first start. `lodestone\boot-report.txt` next to the game says `HOSTING` once players can join, or exactly what stopped it if they can't.
+7. Give players the IP and port. They add it in the Lodestone app and press Connect.
 
-Running two servers on one machine: give each its own copy of the game folder and its own gameplay port; every other port derives from it, and each folder keeps its own saves, config and status files.
+Running two servers on one machine: give each its own copy of the game folder and its own gameplay port. Every other port follows from it, and each folder keeps its own saves, config and status files.
 
 ## The live map page
 
-Open `http://<server ip>:<game port + 5>/` in a browser. The server serves the page itself; nothing else is installed.
+Open `http://<server ip>:<game port + 5>/` in a browser. The server serves the page itself, so there's nothing else to install.
 
 <p align="center">
   <img src="docs/img/map-page.png" alt="The live map page: the whole world, a player's live position, the area selector and the map controls" width="860">
@@ -89,9 +86,9 @@ Open `http://<server ip>:<game port + 5>/` in a browser. The server serves the p
 - **The map**: the world drawn from the game's own terrain art, one level at a time, redrawn as players mine, build and explore.
 - **Players**: every connected player marked where they stand, refreshed every few seconds.
 - **Points of interest**: the teleporters, live from the game.
-- **Timelapse**: the frames the world went through, kept by the server.
+- **History**: plays back how the world changed, from frames the server keeps.
 
-The page and its JSON are open to anyone with the address; set `AccessKey` under `[Map]` to require a key. Details and the API in [docs/map.md](docs/map.md).
+The page and its JSON are open to anyone with the address. Set `AccessKey` under `[Map]` to require a key. Details and the API are in [docs/map.md](docs/map.md).
 
 ## Running it from a panel or a script
 
@@ -99,19 +96,21 @@ The page and its JSON are open to anyone with the address; set `AccessKey` under
 
 ## Rent a server
 
-If you would rather not run the machine, [SurvivalServers.com](https://www.survivalservers.com/services/game_servers/delverium/?utm_source=github&utm_medium=readme_install&utm_campaign=lodestone) runs Delverium servers with Lodestone installed and kept current, the ports open, and a control panel with the live map, the console, backups and one-click restores.
+[SurvivalServers.com](https://www.survivalservers.com/services/game_servers/delverium/?utm_source=github&utm_medium=readme_install&utm_campaign=lodestone) runs Delverium servers with LodestoneServer installed.
 
 ## Changelog
 
-Every released version is listed in [CHANGELOG.md](CHANGELOG.md), split by what changed on the **Server** and what changed on the **Client**. Release pages quote the matching section verbatim.
+Every server release is listed in [CHANGELOG.md](CHANGELOG.md), and its release page quotes that section word for word. The app's release notes are on the [Lodestone release pages](https://github.com/HumanGenome/Lodestone/releases).
 
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). Security issues go through [private reporting](.github/SECURITY.md), never a public issue.
 
+Bugs: [open an issue](https://github.com/HumanGenome/LodestoneServer/issues).
+
 ## Community note
 
-Lodestone is an independent community project. It is not affiliated with, endorsed by, or supported by Sagestone Games.
+Lodestone is an independent community project. It isn't affiliated with, endorsed by, or supported by Sagestone Games.
 
 ## License
 
