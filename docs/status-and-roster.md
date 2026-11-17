@@ -4,13 +4,13 @@ A Lodestone server keeps a few plain files in `<game>\lodestone\` so a panel, a 
 
 ## boot-report.txt
 
-Written on every start, rewritten as the start progresses. The first line is the verdict; the rest is a page of plain text: the game build and engine version, which patches applied and what each one is for, the world state, the ports, and whether a join password is in force.
+Written on every start, rewritten as the start progresses. The first line is the verdict. The rest is a page of plain text: the game build and engine version, which patches applied and what each one is for, the world state, the ports, and whether a join password is in force.
 
 | Verdict | Means |
 |---|---|
 | `STARTING` | Still coming up |
 | `HOSTING` | World running, gameplay port open, accepting players |
-| `WILL NOT HOST` | A required patch did not apply, Steam would not start, or the gameplay port could not be opened. The gameplay port is deliberately never opened in this state, so nobody joins a half-working server |
+| `WILL NOT HOST` | A required patch didn't apply, Steam wouldn't start, or the gameplay port couldn't be opened. The gameplay port is never opened in this state, so nobody joins a half-working server |
 | `WORLD DID NOT START` | Hosting began but the world never came up inside its deadline. The port is shut again |
 | `CLIENT` | This process is a joiner, not a server |
 
@@ -76,10 +76,10 @@ Rebuilt once a second and written every 5 seconds (`Roster.IntervalMs` in the ad
 
 | Field | Meaning |
 |---|---|
-| `stale` | `true` when the snapshot is older than it should be; the rest of the document is the last good one |
+| `stale` | `true` when the data is older than it should be. The rest of the document is the last good copy |
 | `server.*` | The advertised name, where each listener is (`ports` holds the ports it really listens on), the game build and label, the Lodestone version, and whether the server is logged on to Steam |
 | `world.*` | The world being hosted, its settings, and whether it is running |
-| `players[]` | Everyone connected: character name, whether they have spawned, which level they are on and where, ping, how long they have been on, and their health |
+| `players[]` | Everyone connected: character name, whether they've spawned, which level they're on and where, ping, how long they've been on, and their health |
 
 `x` and `y` are world units, which are tile units, so a map can place a player without conversion. `level_id` is the game's own level index; `0` is the surface.
 
@@ -89,4 +89,4 @@ The ban list, kept across restarts, in the same folder. Edit it through RCON (`b
 
 ## Stopping and restarting
 
-`shutdown` and `restart` over RCON or the API save the world first and then exit; `restart` also drops a `restart-requested` marker in the folder so whatever supervises the process knows to bring it back. Both take a delay in seconds and a reason, and the in-game chat counts the delay down. `cancel` stops a pending one.
+`shutdown` and `restart` over RCON or the API save the world first, then exit. `restart` also leaves a `restart-requested` file in the folder, so whatever starts your server knows to start it again. Both take a delay in seconds and a reason, and the in-game chat counts the delay down. `cancel` stops a pending one.

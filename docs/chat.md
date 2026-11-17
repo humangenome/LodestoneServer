@@ -1,25 +1,25 @@
 # In-game chat
 
-Delverium has no chat of its own. A Lodestone server adds one, drawn by the game's own UI in the game's own font, and every player with the Lodestone app has it the moment they connect.
+Delverium has no chat of its own. A Lodestone server adds one in the game's own font, and every player with the Lodestone app has it as soon as they join.
 
 ## For players
 
 - Press **T** to open the chat line, type, press Enter.
-- Player messages, join and leave notices, server announcements and restart countdowns all land in the same feed, in three shapes you cannot confuse: a player line, a server line, and a notice.
-- Lines fade after a while; open the chat to see the recent ones again.
+- Player messages, join and leave notices, server announcements and restart countdowns all show in one feed. Player lines, server lines and notices each look different.
+- Lines fade after a while. Open the chat to see the recent ones again.
 - A line starting with `/` is a command. `/help` lists them.
 
 | Command | Does |
 |---|---|
 | `/help [command]` | list the commands, or one command's usage |
 | `/players` (`/who`, `/list`) | who is online |
-| `/whoami` | your name and whether you are an admin |
+| `/whoami` | your name and whether you're an admin |
 | `/motd` | show the server's message of the day |
 | `/version` | the chat version |
 
 ## For admins
 
-An admin is a player whose id is listed under `Admins` in the chat config. Nothing a client sends can make it an admin; the server checks the id on its own record of the connection.
+An admin is a player whose Steam ID is listed under `Admins` in the chat config. A player can't make themselves an admin: the server checks the Steam ID itself.
 
 | Command | Does |
 |---|---|
@@ -67,4 +67,4 @@ FontScale = 1                    # 1 = the game's own message text size
 
 ## Safety
 
-Messages are plain text. Anything that is not printable text is stripped, every message is capped at `MaxMessageLength` bytes, and a player who floods is rate-limited on the server (`Burst` and `PerMinute`). A player without the Lodestone app never sees the chat and the chat never reaches their game, so a mixed session does not break.
+Messages are plain text. Anything that is not printable text is stripped, every message is capped at `MaxMessageLength` bytes, and a player who floods is rate-limited on the server (`Burst` and `PerMinute`). A player whose Lodestone app has a different chat version doesn't see the chat, and the chat never reaches their game, so they can still play.

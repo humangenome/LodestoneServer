@@ -1,6 +1,6 @@
-# The admin plane: RCON and the HTTP API
+# RCON and the HTTP API
 
-Every Lodestone server carries an admin plane inside the game process: Source RCON on game port + 3 and a signed HTTP API on game port + 4. Both are off until an admin password is set. The Lodestone app's Console tab, a hosting panel, a scheduler or your own script all use the same two doors.
+Every Lodestone server has Source RCON on game port + 3 and a signed HTTP API on game port + 4, both inside the game. They stay off until you set an admin password. The Lodestone app's Console tab, a hosting panel, a scheduler or your own script all use them.
 
 ## Configuration
 
@@ -27,9 +27,9 @@ Path =                           # empty = <game>\lodestone\roster.json
 BufferLines = 2000
 ```
 
-An empty password is a hard off switch for both listeners. An unauthenticated RCON port on a public host is a remote shell, so the server fails closed rather than open.
+With no password, both stay off. An RCON port with no password on a public server would let anyone run admin commands, so the server keeps it shut.
 
-Files the admin plane writes live in `<game>\lodestone\`: `roster.json` (the live roster, see [status-and-roster.md](status-and-roster.md)), `bans.json` (the ban list, kept across restarts), `allowlist.json` (the allow list, kept across restarts), `snapshots\` (world backups, see [World backups](#world-backups)) and `restart-requested` (a marker written just before a restart-flavoured exit, for whatever supervises the process).
+RCON and the API keep their files in `<game>\lodestone\`: `roster.json` (the live roster, see [status-and-roster.md](status-and-roster.md)), `bans.json` (the ban list, kept across restarts), `allowlist.json` (the whitelist, kept across restarts), `snapshots\` (world backups, see [World backups](#world-backups)) and `restart-requested` (written just before a restart, for whatever starts your server again).
 
 ## Source RCON
 
@@ -40,31 +40,31 @@ help                        this list
 version                     admin plugin version
 status                      server, world and online state
 players | list              connected players
-roster                      the roster document for this instant
+roster                      the roster document as it is right now
 say <message>               broadcast into the in-game chat
-announce <message>          broadcast with a server banner
-kick <id|name> [reason]     drop a connected player
-ban <id|name> [reason]      ban and drop
+announce <message>          the same as say: send a message to every player
+kick <id|name> [reason]     kick a player
+ban <id|name> [reason]      ban and kick a player
 unban <id>                  lift a ban
 bans                        list bans
-allow <id|name>             add a player to the allow list
-deny <id>                   take a player off the allow list
-allowlist                   list the allow list (empty = everyone may join)
+allow <id|name>             add a player to the whitelist
+deny <id>                   take a player off the whitelist
+allowlist                   show the whitelist (empty = everyone can join)
 save                        save the world now
 shutdown [secs] [reason]    save and exit
-restart [secs] [reason]     save, exit, and leave the restart marker
+restart [secs] [reason]     save and close the server. It comes back only if something starts it again
 cancel                      cancel a pending shutdown or restart
 time                        the world clock
 time set <hh:mm> [day]      set the world clock
 tp <player> <x> <y> [level] move a player; also tp <player> <other player> and tp <player> spawn
 spawn <player>              send a player to the spawn point
-mem                         what the server process weighs
-ports                       the ports this server really listens on
+mem                         the server's memory use
+ports                       the ports this server is using
 build                       the game build this server runs
 ping                        pong
 ```
 
-While the allow list holds at least one player, only listed players can join, and anyone already in who is not listed is shown out. The ban list applies either way.
+While the whitelist has at least one player, only those players can join, and anyone already on the server who isn't on it is kicked. The ban list applies either way.
 
 ## The HTTP API
 
@@ -76,7 +76,7 @@ Base URL `http://<server ip>:<game port + 4>`. Every response carries an `X-Lode
 |---|---|---|
 | GET | `/api/v1/health` | `200` when the world is running and the snapshot is fresh, `503` otherwise; the body says why in `verdict` and `verdict_detail`, and names the game build the server runs |
 | GET | `/api/v1/players` | Names, session length, ping. No positions. Can be made signed with `PublicPlayerList = false` |
-| GET | `/api/v1/manifest` | What the server runs and what it asks of a player; the app's Mods tab reads it |
+| GET | `/api/v1/manifest` | What the server runs and what it asks of a player |
 
 ```json
 // GET /api/v1/health -> 200
@@ -99,7 +99,7 @@ Base URL `http://<server ip>:<game port + 4>`. Every response carries an `X-Lode
 
 | Method | Path | Body | Notes |
 |---|---|---|---|
-| GET | `/api/v1/info` | | Server name, game build, the live ports, player count, whether the allow list is on, and the world clock |
+| GET | `/api/v1/info` | | Server name, game build, the live ports, player count, whether the whitelist is on, and the world clock |
 | GET | `/api/v1/status` | | The full roster document |
 | GET | `/api/v1/roster` | | Same document, see [status-and-roster.md](status-and-roster.md) |
 | GET | `/api/v1/bans` | | |
@@ -120,8 +120,8 @@ Base URL `http://<server ip>:<game port + 4>`. Every response carries an `X-Lode
 | GET | `/api/v1/snapshots` | | World backups, newest first, each with its id, size and SHA-256 |
 | POST | `/api/v1/snapshots` | none, or a world zip | No body: back up the running world now. A zip body: keep that zip as a backup |
 | GET | `/api/v1/snapshots/<id>/download` | | The backup as a zip; `X-Lodestone-Sha256` carries its hash |
-| POST | `/api/v1/snapshots/<id>/restore` | | Puts that backup back, then restarts the server |
-| POST | `/api/v1/snapshots/import-restore` | a world zip | Keeps the zip as a backup and puts it in place, then restarts the server |
+| POST | `/api/v1/snapshots/<id>/restore` | | Restores that backup, then restarts the server |
+| POST | `/api/v1/snapshots/import-restore` | a world zip | Keeps the zip as a backup and restores it, then restarts the server |
 
 ### Signing a request
 
@@ -157,11 +157,11 @@ Omit `since` to start from now, or pass a sequence number to replay the backlog 
 
 ## World backups
 
-A backup is a zip of the world file and the folder beside it, kept in `<game>\lodestone\snapshots\`. The Lodestone app's World window uses the endpoints above: back up now, download, put one back, and bring in a world from a player's own game.
+A backup is a zip of the world file and the folder beside it, kept in `<game>\lodestone\snapshots\`. The Lodestone app's World backups window uses these routes to back up, download, restore, and upload a save from a player's own game.
 
-A world cannot be swapped under a running game, which holds the world in memory and writes it back when it saves. So a restore or an import backs up the running world first, stages the incoming one, and restarts the server; the new world is put in place on that start, under the server's World Name. The world it replaced is moved to `<game>\lodestone\world-import\replaced\`, never deleted. The answer carries `restarts_by_itself`: `false` means nothing supervises the process, and the server has to be started again by hand.
+A running game holds its world in memory and writes it back when it saves, so a world can't be swapped while the game runs. A restore or an upload backs up the running world first, then restarts the server, which loads the new world under the server's World Name. The world it replaced is moved to `<game>\lodestone\world-import\replaced\`, never deleted. The answer carries `restarts_by_itself`: `false` means nothing will start the server again by itself, so start it by hand.
 
-Backups the owner asks for or uploads are kept until deleted by hand. The automatic backups taken before an import are kept to the newest 10. An upload may be up to 64 MB.
+Backups the owner asks for or uploads are kept until deleted by hand. The automatic backups taken before a restore or upload are kept to the newest 10. An upload may be up to 64 MB.
 
 ## Server query
 

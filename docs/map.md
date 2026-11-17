@@ -6,13 +6,13 @@ Every Lodestone server draws its world on its own web port, game port + 5 (`2702
   <img src="img/map-page.png" alt="The live map page: the whole world with a player's live position" width="860">
 </p>
 
-## What is on it
+## What's on it
 
 - **The world**, one level at a time, drawn from the game's own terrain art: grass, sand, water, stone, farmed soil, the lot. The picture is rebuilt only when tiles actually change, so a busy mining session shows up within seconds and an idle world costs nothing.
-- **Close in, the game's own ground art.** Zoomed out, the map is one colour per tile; zoomed in, the browser draws the game's own ground textures.
+- **Close in, the game's own ground art.** Zoomed out, the map is one colour per tile. Zoomed in, the browser draws the game's own ground textures.
 - **Players**: every connected player marked where they stand, with their name, refreshed every few seconds. A player whose position has gone stale is shown as stale rather than drawn somewhere wrong.
 - **Points of interest**: the teleporters, live from the game.
-- **Timelapse**: the server keeps the frames the world went through, and the page plays them back per level.
+- **History**: the server keeps frames of how each level changed, and the page's History button plays them back.
 
 ## Configuration
 
@@ -35,7 +35,7 @@ MaxFrames = 240
 MaxMegabytes = 200
 ```
 
-Leave `Port` at `0`. It derives from the host's gameplay port, so the two never drift when you change one; a fixed number is honoured only if you set it on purpose.
+Leave `Port` at `0`. It follows the gameplay port, so the two stay in step when you change one. A fixed number is used only if you set one on purpose.
 
 With `AccessKey` set, every request must carry the key as an `X-Lodestone-Key` header or a `key` query parameter, and the page asks for it once.
 
@@ -55,7 +55,7 @@ Everything the page draws comes from these routes, so a Discord bot, a hosting p
 | `/timelapse/<levelId>/<unixMs>.png` | a past frame |
 | `/assets/tileset.png`, `/assets/tileset.json` | the terrain art the viewer draws close in |
 
-`revision` only advances when the tiles changed, so a cached image stays valid until it is really stale. Positions are in world units, which are tile units, so nothing needs converting to land on the map.
+`revision` only advances when the tiles changed, so a cached image stays valid until it is really stale. Positions are in world units, which are tile units, so nothing needs converting to place it on the map.
 
 ## What it costs the server
 
