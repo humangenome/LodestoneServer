@@ -12,6 +12,34 @@ version with no section here can't be released.
 
 ## [Unreleased]
 
+## [0.2.9] - 2026-11-18
+
+### Server
+
+#### Added
+
+- The server package includes Lodestone's licence and the licence texts and
+  notices for everything it carries, among them BepInEx (LGPL-2.1),
+  Il2CppInterop (LGPL-3.0) and the .NET runtime.
+- The console command `backups` lists the world backups a server keeps, and
+  `backups remove <id>` deletes one.
+
+#### Changed
+
+- After 5 wrong join passwords within 10 minutes from one address, or from one
+  Steam account, the server turns that address, or that account, away for 1
+  minute, doubling each time up to 15 minutes. A right password clears the
+  count.
+  Wrong join passwords had no limit before.
+- A server keeps at most 10 uploaded worlds, taking up to 512 MB between them.
+  Past that, an upload is refused with a message that says how to make room.
+- Blocks on RCON and admin API logins now hold when many addresses fail at
+  once.
+- The server log no longer records values worked out from the join password.
+- The server package runs on .NET 6.0.36, the last .NET 6 update. It carried
+  6.0.7. BepInEx does not run on a newer .NET yet.
+- Built against Delverium v0.1.1.1956 (Steam build 26340989).
+
 ## [0.2.8] - 2026-11-12
 
 ### Server
