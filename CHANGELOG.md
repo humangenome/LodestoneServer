@@ -40,6 +40,10 @@ version with no section here can't be released.
   6.0.7. BepInEx does not run on a newer .NET yet.
 - Built against Delverium v0.1.1.1956 (Steam build 26340989).
 
+#### Fixed
+
+- Server backup fixes.
+
 ## [0.2.8] - 2026-11-12
 
 ### Server
