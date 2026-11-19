@@ -58,7 +58,7 @@ The two UDP ports must be open on the host firewall and forwarded if the server 
 
 ## Setup
 
-**Before you start:** Delverium has Steam's launch check, so it closes at once when Steam didn't start it. The steps to run it on your own machine aren't written up yet.
+**Before you start:** Delverium has Steam's launch check, so it closes at once when Steam didn't start it. How to get past that check on your own machine isn't written up yet.
 
 1. Put a copy of Delverium's game files on the host from your own Steam copy: install the game through Steam on the host, or copy the game folder from a PC that has it.
 2. Download `LodestoneServer-<version>.zip` from the [latest release](https://github.com/HumanGenome/LodestoneServer/releases/latest) and copy the contents of its `LodestoneServer\bepinex\` folder **over** the game folder, so `winhttp.dll`, `doorstop_config.ini`, `BepInEx\` and `dotnet\` sit next to `Delverium.exe`.
