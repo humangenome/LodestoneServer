@@ -37,7 +37,7 @@ jobs:
           fi
           echo "tag ${TAG} is a release version"
 
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # The tag must equal the version stamped in the build and the CHANGELOG.
       # Three siblings published a release whose binary reported a different
