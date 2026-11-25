@@ -12,6 +12,15 @@ version with no section here can't be released.
 
 ## [Unreleased]
 
+## [0.2.10] - 2026-11-25
+
+### Server
+
+#### Changed
+
+- No change for servers. The player side now keeps a joining player's explored map, which reaches players in the
+  Lodestone app 0.3.3. Servers on 0.2.9 need no update.
+
 ## [0.2.9] - 2026-11-18
 
 ### Server
